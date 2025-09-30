@@ -1,0 +1,20 @@
+.remove-button-placement {
+    display: flex;
+    justify-content: right;
+    align-items: center;
+    background-color: transparent;
+    border: none;
+}
+
+.button-text {
+    color: #FFFFFF;
+    font-family: "Nunito", sans-serif;
+    font-size: 20px;
+    font-style: normal;
+    font-weight: 700;
+    line-height: 40px; /* 166.667% */
+}
+
+.MdOutlineDelete:hover {
+    fill: red;
+}
