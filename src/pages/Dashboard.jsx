@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import UploadCSV from '../components/UploadCSV';
-import ChartContainer from '../components/ChartContainer';
+import PlotContainer from '../components/PlotContainer';
 import { DndContext, closestCenter } from '@dnd-kit/core';
 import { arrayMove, SortableContext, verticalListSortingStrategy } from '@dnd-kit/sortable';
 
@@ -34,10 +34,10 @@ export function Dashboard() {
     };
 
     // drag and drop for reordering of plots
-    // TODO: this shii broken
     const handleDragEnd = (event) => {
         const { active, over } = event;
-        if (active.id !== over.id) {
+
+        if (active.id && over.id && active.id !== over.id) {
             const oldIndex = plots.indexOf(active.id);
             const newIndex = plots.indexOf(over.id);
             setPlots(arrayMove(plots, oldIndex, newIndex));
@@ -74,17 +74,22 @@ export function Dashboard() {
         </div>
       )}
 
-      {/* render all plots */}
-      <div className="mt-6 space-y-6">
-        {plots.map((channel, index) => (
-          <ChartContainer
-            key={index}
-            data={data}
-            channel={channel}
-            onRemove={() => removeChannel(channel)}
-          />
-        ))}
-      </div>
+      {/* render all plots in drag context*/}
+      <DndContext collisionDetection={closestCenter} onDragEnd={handleDragEnd}>
+        <SortableContext items={plots} strategy={verticalListSortingStrategy}>
+            <div className="mt-6 space-y-6">
+                {plots.map((channel, index) => (
+                    <PlotContainer
+                    key={index} 
+                    data={data}
+                    id={channel}
+                    channel={channel}
+                    onRemove={() => removeChannel(channel)}
+                    />
+                ))}
+            </div>
+        </SortableContext>
+      </DndContext>
     </div>
   );
 }

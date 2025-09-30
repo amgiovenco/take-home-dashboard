@@ -1,23 +1,22 @@
 import React from "react";
-import { useSortable } from "@dnd-kit/sortable";
-import { CSS } from "@dnd-kit/utilities";
+import { useMemo } from "react";
 import ReactEcharts from "echarts-for-react";
 import "../css/buttons.css";
 import { MdOutlineDelete } from 'react-icons/md';
 import { IconContext } from "react-icons";
+import { computeStats } from "../utils/stats";
+import StatsPanel from "./StatsPanel";
 
-
-export default function ChartContainer({ id, data, channel, onRemove }) {
-  const { attributes, listeners, setNodeRef, transform, transition } = useSortable({ id });
-  const style = {
-    transform: CSS.Transform.toString(transform),
-    transition,
-  };
+export default function PlotContainer({ id, data, channel, onRemove }) {
 
   // Prepare time series
   const times = data.rows.map((row) => row.time || row[Object.keys(row)[0]]);
   const values = data.rows.map((row) => row[channel]);
 
+  // Compute global stats
+  const globalStats = useMemo(() => computeStats(values), [values]);
+
+  
   const option = {
     title: { text: channel },
     tooltip: { trigger: "axis" },
@@ -37,6 +36,15 @@ export default function ChartContainer({ id, data, channel, onRemove }) {
     ],
   };
 
+  const onEvents = {
+    dataZoom: (params) => {
+      // zoomed range
+      const startIdx = Math.floor(params.batch[0].start / 100 * values.length);
+      const endIdx = Math.floor(params.batch[0].end / 100 * values.length);
+    },
+  };
+
+
   return (
     <div className="">
       <div className="body">
@@ -49,7 +57,12 @@ export default function ChartContainer({ id, data, channel, onRemove }) {
             </IconContext.Provider>
         </button>
       </div>
-      <ReactEcharts option={option} style={{ height: "400px" }} />
+      <ReactEcharts option={option} onEvents={onEvents} style={{ height: "400px" }} />
+
+        {/* Stats */}
+        <div>
+          <StatsPanel stats={globalStats} label="Global" />
+        </div>
     </div>
   );
 }
