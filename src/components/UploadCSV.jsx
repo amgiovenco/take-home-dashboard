@@ -16,9 +16,9 @@ export default function UploadCSV({ onUpload }) {
     };
 
     return (
-        <div className = "mb-4">
-            <label className = "block mb-2 text-sm font-medium text-gray-700">
-                Upload CSV File:
+        <div className = "body-font">
+            <label className = "body-font">
+                Upload CSV File: 
             </label>
             <input
                 type = "file"
