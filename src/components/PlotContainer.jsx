@@ -1,11 +1,11 @@
 import React from "react";
-import { useMemo, useRef } from "react";
+import { useMemo } from "react";
 import ReactEcharts from "echarts-for-react";
 import StatsPanel from "./StatsPanel";
 import "../css/buttons.css";
 import "../css/statsBoxes.css";
 import "../css/chartStyling.css";
-import { MdOutlineDelete, MdDragHandle } from "react-icons/md";
+import { MdOutlineDelete } from "react-icons/md";
 import { HiOutlineDotsHorizontal } from "react-icons/hi";
 import { IconContext } from "react-icons";
 import { computeStats } from "../utils/stats";

@@ -2,7 +2,7 @@
   min-height: 100vh;
 }
 
-/* Custom scrollbar */
+/* scrollbar. */
 ::-webkit-scrollbar {
   width: 8px;
 }
