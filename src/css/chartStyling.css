@@ -1,8 +1,30 @@
 .chart-container {
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
-    align-items: center;
-    height: 600px; 
-    width: 100%;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  height: 600px;
+  width: 100%;
+}
+
+.plot-card {
+  background: #fff;
+  border-radius: 8px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.15);
+  padding: 8px;
+  margin: 20 px auto;
+  width: 95%;
+  transition:
+    transform 0.2s ease,
+    box-shadow 0.2s ease;
+}
+
+.plot-card.compact {
+  max-width: 95%;
+  margin: 20px auto;
+}
+
+.plot-card.dragging {
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.25);
+  transform: scale(0.98);
 }
