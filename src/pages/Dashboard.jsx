@@ -35,7 +35,7 @@ export function Dashboard() {
     }
   };
 
-  //remove a channel
+  // remove a channel
   const removeChannel = (channelName) => {
     setPlots(plots.filter((c) => c !== channelName));
   };
@@ -54,10 +54,10 @@ export function Dashboard() {
   return (
     <div>
       <h1 className="title-text-container">VATN Systems Dashboard</h1>
-      {/* Upload CSV */}
+      {/* upload CSV */}
       <UploadCSV onUpload={handleCSV} />
 
-      {/* Add Channel dropdown */}
+      {/* add channel dropdown */}
       {columns.length > 0 && (
         <div className="custom-select">
           <select
@@ -65,14 +65,20 @@ export function Dashboard() {
             onChange={(e) => {
               if (e.target.value) {
                 addChannel(e.target.value);
-                e.target.value = ""; // Reset selection
+                e.target.value = "";
               }
             }}
             value=""
           >
             <option value="">Add a channel</option>
             {columns
-              .filter((col) => !plots.includes(col) && col !== "time")
+              .filter(
+                (col) =>
+                  col &&
+                  col.trim() !== "" &&
+                  !plots.includes(col) &&
+                  col !== "time"
+              )
               .map((col, i) => (
                 <option key={i} value={col}>
                   {col}
@@ -82,7 +88,7 @@ export function Dashboard() {
         </div>
       )}
 
-      {/* Render all plots in drag context */}
+      {/* all plots in drag context */}
       <DndContext collisionDetection={closestCenter} onDragEnd={handleDragEnd}>
         <SortableContext items={plots} strategy={verticalListSortingStrategy}>
           <div className="mt-6 space-y-6">

@@ -17,18 +17,36 @@ export default function PlotContainer({
   onRemove,
   dragListeners,
 }) {
-  // Prepare time series
-  const times = useMemo(
+  // prep raw time series
+  const rawTimes = useMemo(
     () => data.rows.map((row) => row.time || row[Object.keys(row)[0]]),
     [data.rows]
   );
-  const values = useMemo(
+  const rawValues = useMemo(
     () => data.rows.map((row) => row[channel]),
     [data.rows, channel]
   );
 
-  // compute global stats
-  const globalStats = useMemo(() => computeStats(values), [values]);
+  // filter out null/undefined points so they don't render on the line
+  const filteredPairs = useMemo(() => {
+    const out = [];
+    for (let i = 0; i < rawTimes.length; i++) {
+      const t = rawTimes[i];
+      const v = rawValues[i];
+      if (v === null || v === undefined) continue;
+      // treat strings that parse to numbers as numbers
+      const num = typeof v === "number" ? v : Number(v);
+      if (Number.isNaN(num)) continue;
+      out.push([t, num]);
+    }
+    return out;
+  }, [rawTimes, rawValues]);
+
+  // compute global stats from filtered values
+  const globalStats = useMemo(
+    () => computeStats(filteredPairs.map((p) => p[1])),
+    [filteredPairs]
+  );
 
   // compute selected stats
   const [selectedStats, setSelectedStats] = React.useState(null);
@@ -48,13 +66,12 @@ export default function PlotContainer({
     tooltip: { trigger: "axis" },
     grid: {
       bottom: 100,
-      left: 90, // reduce left space
-      right: 20, // reduce right space
+      left: 90, 
+      right: 20,
     },
     xAxis: {
       name: "Time in seconds",
-      type: "category",
-      data: times,
+      type: "value",
       nameLocation: "center",
       nameGap: 30,
       nameTextStyle: {
@@ -75,7 +92,7 @@ export default function PlotContainer({
       {
         name: channel,
         type: "line",
-        data: values,
+        data: filteredPairs,
         smooth: true,
         color: "#B0CDD9",
       },
@@ -118,8 +135,11 @@ export default function PlotContainer({
           return;
         }
 
-        const startIdx = Math.floor((startPercent / 100) * values.length);
-        const endIdx = Math.floor((endPercent / 100) * values.length);
+        // compute indices against filteredPairs (the plotted data)
+        const startIdx = Math.floor(
+          (startPercent / 100) * filteredPairs.length
+        );
+        const endIdx = Math.floor((endPercent / 100) * filteredPairs.length);
         console.log("Zoom range:", {
           startPercent,
           endPercent,
@@ -128,7 +148,9 @@ export default function PlotContainer({
         });
 
         if (startIdx < endIdx) {
-          const selected = values.slice(startIdx, endIdx + 1);
+          const selected = filteredPairs
+            .slice(startIdx, endIdx + 1)
+            .map((p) => p[1]);
           console.log("Selected values:", selected);
           const stats = computeStats(selected);
           console.log("Computed stats:", stats);
