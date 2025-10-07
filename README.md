@@ -40,7 +40,8 @@ Utility for computing stats
 
 
 ## Styling 
-### Framework: Tailwind CSS
+### Framework
+[Tailwind CSS](https://tailwindcss.com/) & CSS
 ### Colors
 Default Palette 
 - Primary: #FFFFFF (White)
