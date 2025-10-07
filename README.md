@@ -16,10 +16,7 @@ This app allows users to upload CSV files, visualize time-series data, and use i
 ## Data Interactivity
 - Zoom in on specific data ranges, stats are calculated in real-time
 - View computed stats for both entire dataset & selected
-- Stats include
-  ``` js
-  min, max, mean, median, start, end
-  ```
+- Stats include min, max, mean, median, start, and end
 
 ## Component Architecture
 ### Dashboard.jsx
@@ -46,5 +43,16 @@ Utility for computing stats
 ### Framework: Tailwind CSS
 ### Colors
 Default Palette 
-Used as Accents - #B0CDD9 & #B0B0B0
-Background - #FFFFFF
+- Primary: #FFFFFF (White)
+- Secondary: #B0CDD9 (Blue)
+- Accent: #B0B0B0 (Grey)
+
+Additional Colors Used
+- Text: #000 (Black)
+- Hovers: #B0CDD9 (Darker Blue) & #B41C1C (Red)
+- Stats Panel Background: #F0EEEE (Darker Grey)
+
+## Author
+Alessandra Giovenco
+<br>
+Worcester Polytechnic Institute - BS Computer Science & Data Science 2026
