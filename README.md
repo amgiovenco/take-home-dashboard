@@ -15,4 +15,36 @@ This app allows users to upload CSV files, visualize time-series data, and use i
 
 ## Data Interactivity
 - Zoom in on specific data ranges, stats are calculated in real-time
-- View computed stats for both *\entire dataset\* & *selected\*
+- View computed stats for both entire dataset & selected
+- Stats include
+  ``` js
+  min, max, mean, median, start, end
+  ```
+
+## Component Architecture
+### Dashboard.jsx
+Main container managing app state, CSV uploads, plot creation, and reordering functionality
+
+### UploadCSV.jsx
+Handles CSV upload, parsing, and preprocessing via PapaParse
+
+### PlotContainer.jsx
+Displays time-seies plots using ECharts; handles zoom-based stats updates
+
+### StatsPanel.jsx
+Renders the stats in a easily readable list format
+
+### SortableWrapper.jsx
+Wraps each plot in a draggable context for the reordering funcationality. 
+~~I didn't want to need this but it was a necessary evil.~~
+
+### stats.js
+Utility for computing stats
+
+
+## Styling 
+### Framework: Tailwind CSS
+### Colors
+Default Palette 
+Used as Accents - #B0CDD9 & #B0B0B0
+Background - #FFFFFF
