@@ -15,4 +15,4 @@ This app allows users to upload CSV files, visualize time-series data, and use i
 
 ## Data Interactivity
 - Zoom in on specific data ranges, stats are calculated in real-time
-- View computed stats for both **entire dataset\** & **selected\**
+- View computed stats for both *\entire dataset\* & *selected\*
